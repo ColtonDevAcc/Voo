@@ -3,9 +3,12 @@ package voo
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
+	"time"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -18,6 +21,7 @@ type Voo struct {
 	ErrorLog *log.Logger
 	InfoLog  *log.Logger
 	RootPath string
+	Routes   *chi.Mux
 	config   config
 }
 
@@ -55,6 +59,7 @@ func (v *Voo) New(rootPath string) error {
 	v.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 	v.Version = version
 	v.RootPath = rootPath
+	v.Routes = v.routes().(*chi.Mux)
 
 	v.config = config{
 		port:     os.Getenv("PORT"),
@@ -75,6 +80,24 @@ func (v *Voo) Init(p initPaths) error {
 	}
 
 	return nil
+}
+
+//! listen and serve starts server
+func (v *Voo) ListenAndServe() {
+	srv := &http.Server{
+		Addr:         fmt.Sprintf(":%s", os.Getenv("PORT")),
+		ErrorLog:     v.ErrorLog,
+		Handler:      v.routes(),
+		IdleTimeout:  30 * time.Second,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 600 * time.Second,
+	}
+
+	v.InfoLog.Printf("listening on port %s", os.Getenv("PORT"))
+	err := srv.ListenAndServe()
+	if err != nil {
+		v.ErrorLog.Fatal(err)
+	}
 }
 
 func (v *Voo) checkDotEnv(path string) error {
