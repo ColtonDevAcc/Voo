@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/VooDooStack/Voo/render"
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 )
@@ -22,6 +23,7 @@ type Voo struct {
 	InfoLog  *log.Logger
 	RootPath string
 	Routes   *chi.Mux
+	Render   *render.Render
 	config   config
 }
 
@@ -66,6 +68,8 @@ func (v *Voo) New(rootPath string) error {
 		renderer: os.Getenv("RENDERER"),
 	}
 
+	v.Render = v.createRenderer(v)
+
 	return nil
 }
 
@@ -87,7 +91,7 @@ func (v *Voo) ListenAndServe() {
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%s", os.Getenv("PORT")),
 		ErrorLog:     v.ErrorLog,
-		Handler:      v.routes(),
+		Handler:      v.Routes,
 		IdleTimeout:  30 * time.Second,
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 600 * time.Second,
@@ -116,4 +120,14 @@ func (v *Voo) startLoggers() (*log.Logger, *log.Logger) {
 	errorLog = log.New(os.Stdout, "ERROR\t ", log.Ldate|log.Ltime|log.Lshortfile)
 
 	return infoLog, errorLog
+}
+
+func (v *Voo) createRenderer(voo *Voo) *render.Render {
+	myRenderer := render.Render{
+		Renderer: voo.config.renderer,
+		RootPath: voo.RootPath,
+		Port:     voo.config.port,
+	}
+
+	return &myRenderer
 }
