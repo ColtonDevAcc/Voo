@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/CloudyKit/jet/v6"
 	"github.com/VooDooStack/Voo/render"
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
@@ -24,6 +25,7 @@ type Voo struct {
 	RootPath string
 	Routes   *chi.Mux
 	Render   *render.Render
+	JetViews *jet.Set
 	config   config
 }
 
@@ -68,7 +70,14 @@ func (v *Voo) New(rootPath string) error {
 		renderer: os.Getenv("RENDERER"),
 	}
 
-	v.Render = v.createRenderer(v)
+	var views = jet.NewSet(
+		jet.NewOSFileSystemLoader(fmt.Sprintf("%s/views", rootPath)),
+		jet.InDevelopmentMode(),
+	)
+
+	v.JetViews = views
+
+	v.createRenderer()
 
 	return nil
 }
@@ -122,12 +131,12 @@ func (v *Voo) startLoggers() (*log.Logger, *log.Logger) {
 	return infoLog, errorLog
 }
 
-func (v *Voo) createRenderer(voo *Voo) *render.Render {
+func (v *Voo) createRenderer() {
 	myRenderer := render.Render{
-		Renderer: voo.config.renderer,
-		RootPath: voo.RootPath,
-		Port:     voo.config.port,
+		Renderer: v.config.renderer,
+		RootPath: v.RootPath,
+		Port:     v.config.port,
+		JetViews: v.JetViews,
 	}
-
-	return &myRenderer
+	v.Render = &myRenderer
 }
