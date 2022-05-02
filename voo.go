@@ -71,9 +71,15 @@ func (v *Voo) New(rootPath string) error {
 	v.Routes = v.routes().(*chi.Mux)
 
 	v.config = config{
-		port:        os.Getenv("PORT"),
-		renderer:    os.Getenv("RENDERER"),
-		cookie:      v.config.cookie,
+		port:     os.Getenv("PORT"),
+		renderer: os.Getenv("RENDERER"),
+		cookie: cookieConfig{
+			name:     os.Getenv("COOKIE_NAME"),
+			lifetime: os.Getenv("COOKIE_LIFETIME"),
+			persist:  os.Getenv("COOKIE_PERSIST"),
+			secure:   os.Getenv("COOKIE_SECURE"),
+			domain:   os.Getenv("COOKIE_DOMAIN"),
+		},
 		sessionType: os.Getenv("SESSION_TYPE"),
 	}
 
@@ -83,6 +89,7 @@ func (v *Voo) New(rootPath string) error {
 		CookiePersist:  v.config.cookie.persist,
 		CookieName:     v.config.cookie.name,
 		SessionType:    v.config.sessionType,
+		CookieDomain:   v.config.cookie.domain,
 	}
 
 	v.Session = sess.InitSession()
