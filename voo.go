@@ -10,6 +10,8 @@ import (
 
 	"github.com/CloudyKit/jet/v6"
 	"github.com/VooDooStack/Voo/render"
+	"github.com/VooDooStack/Voo/session"
+	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 )
@@ -25,13 +27,16 @@ type Voo struct {
 	RootPath string
 	Routes   *chi.Mux
 	Render   *render.Render
+	Session  *scs.SessionManager
 	JetViews *jet.Set
 	config   config
 }
 
 type config struct {
-	port     string
-	renderer string
+	port        string
+	renderer    string
+	cookie      cookieConfig
+	sessionType string
 }
 
 func (v *Voo) New(rootPath string) error {
@@ -66,9 +71,21 @@ func (v *Voo) New(rootPath string) error {
 	v.Routes = v.routes().(*chi.Mux)
 
 	v.config = config{
-		port:     os.Getenv("PORT"),
-		renderer: os.Getenv("RENDERER"),
+		port:        os.Getenv("PORT"),
+		renderer:    os.Getenv("RENDERER"),
+		cookie:      v.config.cookie,
+		sessionType: os.Getenv("SESSION_TYPE"),
 	}
+
+	//! Create a session
+	sess := session.Session{
+		CookieLifetime: v.config.cookie.lifetime,
+		CookiePersist:  v.config.cookie.persist,
+		CookieName:     v.config.cookie.name,
+		SessionType:    v.config.sessionType,
+	}
+
+	v.Session = sess.InitSession()
 
 	var views = jet.NewSet(
 		jet.NewOSFileSystemLoader(fmt.Sprintf("%s/views", rootPath)),
