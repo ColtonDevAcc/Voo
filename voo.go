@@ -38,7 +38,7 @@ type config struct {
 	renderer    string
 	cookie      cookieConfig
 	sessionType string
-	databse     databaseConfig
+	database    databaseConfig
 }
 
 func (v *Voo) New(rootPath string) error {
@@ -98,6 +98,10 @@ func (v *Voo) New(rootPath string) error {
 			domain:   os.Getenv("COOKIE_DOMAIN"),
 		},
 		sessionType: os.Getenv("SESSION_TYPE"),
+		database: databaseConfig{
+			databse: os.Getenv("DATABASE_TYPE"),
+			dsn:     v.BuildDSN(),
+		},
 	}
 
 	//! Create a session
