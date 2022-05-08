@@ -11,6 +11,8 @@ import (
 func (v *Voo) openDB(dbType, dsn string) (*sql.DB, error) {
 	if dbType == "postgresql" || dbType == "postgres" {
 		dbType = "pgx"
+	} else {
+		dbType = "not provided or not supported"
 	}
 
 	db, err := sql.Open(dbType, dsn)

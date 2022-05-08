@@ -68,7 +68,7 @@ func (v *Voo) New(rootPath string) error {
 
 	//! connect to database
 	if os.Getenv("DATABASE_TYPE") != "" {
-		db, err := v.openDB(os.ExpandEnv("$DATABASE_TYPE"), v.BuildDSN())
+		db, err := v.openDB(os.Getenv("DATABASE_TYPE"), v.BuildDSN())
 		if err != nil {
 			errorLog.Println(err)
 			os.Exit(1)
