@@ -1,0 +1,1 @@
+{"buildTargets":["build_cli","cover","coverage","end_compose","start_compose","test"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
