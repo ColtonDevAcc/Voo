@@ -187,18 +187,17 @@ func (v *Voo) BuildDSN() string {
 
 	switch os.Getenv("DATABASE_TYPE") {
 	case "postgres", "postgresql":
-		{
-			dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s  sslmode=%s timezoneUTC timeout=5",
-				os.Getenv("DATABASE_HOST"),
-				os.Getenv("DATABASE_PORT"),
-				os.Getenv("DATABASE_USER"),
-				os.Getenv("DATABASE_NAME"),
-				os.Getenv("DATABASE_SSLMODE"),
-			)
+		dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s timezone=UTC connect_timeout=5",
+			os.Getenv("DATABASE_HOST"),
+			os.Getenv("DATABASE_PORT"),
+			os.Getenv("DATABASE_USER"),
+			os.Getenv("DATABASE_NAME"),
+			os.Getenv("DATABASE_SSL_MODE"))
 
-			if os.Getenv("DATABASE_PASSWORD") != "" {
-				dsn = fmt.Sprintf("%s password=%s", dsn, os.Getenv("DATABASE_PASSWORD"))
-			}
+		// we check to see if a database passsword has been supplied, since including "password=" with nothing
+		// after it sometimes causes postgres to fail to allow a connection.
+		if os.Getenv("DATABASE_PASS") != "" {
+			dsn = fmt.Sprintf("%s password=%s", dsn, os.Getenv("DATABASE_PASS"))
 		}
 
 	default:
