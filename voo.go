@@ -151,6 +151,8 @@ func (v *Voo) ListenAndServe() {
 		WriteTimeout: 600 * time.Second,
 	}
 
+	defer v.DB.Pool.Close()
+
 	v.InfoLog.Printf("listening on port %s", os.Getenv("PORT"))
 	err := srv.ListenAndServe()
 	if err != nil {

@@ -10,7 +10,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Sun May  8 00:39:36 2022
+# Make data base, printed on Sun May  8 22:12:01 2022
 
 # Variables
 
@@ -45,7 +45,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/xx/07hx2gwj53x2_w666v2q192h0000gn/T/vscode-ipc-e268de4a-8d5b-41eb-97c8-0abb4be2bef4.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/xx/07hx2gwj53x2_w666v2q192h0000gn/T/vscode-ipc-c07c58c1-ed9a-4de8-960a-11d8555f2ef8.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -66,7 +66,6 @@ ELECTRON_RUN_AS_NODE = 1
 SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.4jYENcwaVQ/Listeners
 # automatic
 %F = $(notdir $%)
- 
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -74,6 +73,7 @@ PWD = /Users/coltonbristow/Development/Projects/Learning/GO/goLaravel/Voo
 # environment
 HOMEBREW_CELLAR = /opt/homebrew/Cellar
 # environment
+ 
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 MANPATH = /opt/homebrew/share/man:
@@ -168,9 +168,9 @@ VSCODE_PID = 602
 
 # Directories
 
-# . (device 16777234, inode 20019486): 18 files, no impossibilities.
+# . (device 16777234, inode 20019486): 17 files, no impossibilities.
 
-# 18 files, no impossibilities in 1 directories.
+# 17 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -183,7 +183,7 @@ build_cli:
 #  Modification time never checked.
 #  File has not been updated.
 #  commands to execute (from `makefile', line 15):
-	@go build -o ../myapp/celeritas ./cmd/cli
+	@go build -o ../myapp/voo ./cmd/cli
 	
 
 # Not a target:
@@ -226,9 +226,10 @@ test:
 	
 
 # Not a target:
+ 
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-07 20:22:47
+#  Last modified 2022-05-08 00:44:24
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -269,6 +270,6 @@ coverage:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun May  8 00:39:36 2022
+# Finished Make data base on Sun May  8 22:12:01 2022
 
  

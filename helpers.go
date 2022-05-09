@@ -1,8 +1,15 @@
 package voo
 
-import "os"
+import (
+	"crypto/rand"
+	"os"
+)
 
-func (c *Voo) CreateDirIfNotExits(path string) error {
+const (
+	randomString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321_+"
+)
+
+func (v *Voo) CreateDirIfNotExits(path string) error {
 	const mode = 0755
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		err := os.MkdirAll(path, mode)
@@ -11,6 +18,18 @@ func (c *Voo) CreateDirIfNotExits(path string) error {
 		}
 	}
 	return nil
+}
+
+func (v *Voo) randomString(n int) string {
+	s, r := make([]rune, n), []rune(randomString)
+
+	for i := range s {
+		p, _ := rand.Prime(rand.Reader, len(r))
+		x, y := p.Uint64(), uint64(len(r))
+		s[i] = r[x%y]
+	}
+
+	return string(s)
 }
 
 func (v *Voo) CreateFileIfNotExists(path string) error {
