@@ -9,6 +9,18 @@ const (
 	randomString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321_+"
 )
 
+func (v *Voo) RandomString(n int) string {
+	s, r := make([]rune, n), []rune(randomString)
+
+	for i := range s {
+		p, _ := rand.Prime(rand.Reader, len(randomString))
+		x, y := p.Uint64(), uint64(len(r))
+		s[i] = r[x%y]
+	}
+
+	return string(s)
+}
+
 func (v *Voo) CreateDirIfNotExits(path string) error {
 	const mode = 0755
 	if _, err := os.Stat(path); os.IsNotExist(err) {

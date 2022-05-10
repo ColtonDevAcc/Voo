@@ -6,11 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
-make: *** No rule to make target `all'.  Stop.
 
-
-# Make data base, printed on Sun May  8 22:12:01 2022
+# Make data base, printed on Mon May  9 22:39:25 2022
 
 # Variables
 
@@ -45,7 +42,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/xx/07hx2gwj53x2_w666v2q192h0000gn/T/vscode-ipc-c07c58c1-ed9a-4de8-960a-11d8555f2ef8.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/xx/07hx2gwj53x2_w666v2q192h0000gn/T/vscode-ipc-98569fe5-dd3d-4153-94b2-532f77132335.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -73,7 +70,6 @@ PWD = /Users/coltonbristow/Development/Projects/Learning/GO/goLaravel/Voo
 # environment
 HOMEBREW_CELLAR = /opt/homebrew/Cellar
 # environment
- 
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 MANPATH = /opt/homebrew/share/man:
@@ -226,7 +222,6 @@ test:
 	
 
 # Not a target:
- 
 makefile:
 #  Implicit rule search has been done.
 #  Last modified 2022-05-08 00:44:24
@@ -270,6 +265,8 @@ coverage:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun May  8 22:12:01 2022
+# Finished Make data base on Mon May  9 22:39:25 2022
 
  
+make: *** No rule to make target `all'.  Stop.
+
