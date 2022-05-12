@@ -35,8 +35,6 @@ func (v *Session) InitSession() *scs.SessionManager {
 	//! should cookies be secure
 	if strings.ToLower(v.CookieSecure) == "true" {
 		secure = true
-	} else {
-		secure = false
 	}
 
 	//create the session
@@ -48,10 +46,14 @@ func (v *Session) InitSession() *scs.SessionManager {
 	session.Cookie.Domain = v.CookieDomain
 	session.Cookie.SameSite = http.SameSiteLaxMode
 
-	switch v.SessionType {
+	// which session store?
+	switch strings.ToLower(v.SessionType) {
 	case "redis":
+
 	case "mysql", "mariadb":
+
 	case "postgres", "postgresql":
+
 	default:
 		// cookie
 	}

@@ -41,14 +41,16 @@ type config struct {
 	database    databaseConfig
 }
 
+// New reads the .env file, creates our application config, populates the Voo type with settings
+// based on .env values, and creates necessary folders and files if they don't exist
 func (v *Voo) New(rootPath string) error {
 	pathConfig := initPaths{
 		rootPath:    rootPath,
-		folderNames: []string{"migrations", "handlers", "logs", "data", "tmp", "views", "public", "tmp", "middlewares"},
+		folderNames: []string{"handlers", "migrations", "views", "data", "public", "tmp", "logs", "middleware"},
 	}
+
 	err := v.Init(pathConfig)
 	if err != nil {
-
 		return err
 	}
 
@@ -57,26 +59,25 @@ func (v *Voo) New(rootPath string) error {
 		return err
 	}
 
-	//! read .env file
+	// read .env
 	err = godotenv.Load(rootPath + "/.env")
 	if err != nil {
 		return err
 	}
 
-	//! create loggers
+	// create loggers
 	infoLog, errorLog := v.startLoggers()
 
-	//! connect to database
+	// connect to database
 	if os.Getenv("DATABASE_TYPE") != "" {
 		db, err := v.openDB(os.Getenv("DATABASE_TYPE"), v.BuildDSN())
 		if err != nil {
 			errorLog.Println(err)
 			os.Exit(1)
 		}
-
 		v.DB = Database{
-			DatabseType: os.Getenv("DATABASE_TYPE"),
-			Pool:        db,
+			DataType: os.Getenv("DATABASE_TYPE"),
+			Pool:     db,
 		}
 	}
 
@@ -93,18 +94,19 @@ func (v *Voo) New(rootPath string) error {
 		cookie: cookieConfig{
 			name:     os.Getenv("COOKIE_NAME"),
 			lifetime: os.Getenv("COOKIE_LIFETIME"),
-			persist:  os.Getenv("COOKIE_PERSIST"),
+			persist:  os.Getenv("COOKIE_PERSISTS"),
 			secure:   os.Getenv("COOKIE_SECURE"),
 			domain:   os.Getenv("COOKIE_DOMAIN"),
 		},
 		sessionType: os.Getenv("SESSION_TYPE"),
 		database: databaseConfig{
-			databse: os.Getenv("DATABASE_TYPE"),
-			dsn:     v.BuildDSN(),
+			database: os.Getenv("DATABASE_TYPE"),
+			dsn:      v.BuildDSN(),
 		},
 	}
 
-	//! Create a session
+	// create session
+
 	sess := session.Session{
 		CookieLifetime: v.config.cookie.lifetime,
 		CookiePersist:  v.config.cookie.persist,
@@ -153,11 +155,9 @@ func (v *Voo) ListenAndServe() {
 
 	defer v.DB.Pool.Close()
 
-	v.InfoLog.Printf("listening on port %s", os.Getenv("PORT"))
+	v.InfoLog.Printf("Listening on port %s", os.Getenv("PORT"))
 	err := srv.ListenAndServe()
-	if err != nil {
-		v.ErrorLog.Fatal(err)
-	}
+	v.ErrorLog.Fatal(err)
 }
 
 func (v *Voo) checkDotEnv(path string) error {

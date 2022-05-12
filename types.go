@@ -16,11 +16,11 @@ type cookieConfig struct {
 }
 
 type databaseConfig struct {
-	dsn     string
-	databse string
+	dsn      string
+	database string
 }
 
 type Database struct {
-	DatabseType string
-	Pool        *sql.DB
+	DataType string
+	Pool     *sql.DB
 }

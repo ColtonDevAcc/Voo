@@ -21,10 +21,10 @@ type Render struct {
 }
 
 type TemplateData struct {
-	IsAuthinticated bool
+	IsAuthenticated bool
 	IntMap          map[string]int
 	StringMap       map[string]string
-	FloatMap        map[string]float64
+	FloatMap        map[string]float32
 	Data            map[string]interface{}
 	CSRFToken       string
 	Port            string
@@ -41,7 +41,7 @@ func (v *Render) Page(w http.ResponseWriter, r *http.Request, view string, varia
 	default:
 	}
 
-	return errors.New("no renderer specified")
+	return errors.New("no rendering engine specified")
 }
 
 //! goPage renders a standard go template
@@ -66,7 +66,6 @@ func (v *Render) GoPage(w http.ResponseWriter, r *http.Request, view string, dat
 
 //! jetPage renders a template using the jet template engine
 func (v *Render) JetPage(w http.ResponseWriter, r *http.Request, templateName string, variables, data interface{}) error {
-
 	var vars jet.VarMap
 
 	if variables == nil {
@@ -90,6 +89,5 @@ func (v *Render) JetPage(w http.ResponseWriter, r *http.Request, templateName st
 		log.Println(err)
 		return err
 	}
-
 	return nil
 }

@@ -9,7 +9,6 @@ import (
 
 func (v *Voo) routes() http.Handler {
 	mux := chi.NewRouter()
-
 	mux.Use(middleware.RequestID)
 	mux.Use(middleware.RealIP)
 	if v.Debug {

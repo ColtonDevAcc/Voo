@@ -8,11 +8,11 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
+// OpenDB opens a connection to a sql database. dbType must be one of postgres (or pgx).
+// TODO: add support for mysql/mariadb
 func (v *Voo) openDB(dbType, dsn string) (*sql.DB, error) {
-	if dbType == "postgresql" || dbType == "postgres" {
+	if dbType == "postgres" || dbType == "postgresql" {
 		dbType = "pgx"
-	} else {
-		dbType = "not provided or not supported"
 	}
 
 	db, err := sql.Open(dbType, dsn)
