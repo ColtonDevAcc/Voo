@@ -184,6 +184,7 @@ func (v *Voo) createRenderer() {
 		RootPath: v.RootPath,
 		Port:     v.config.port,
 		JetViews: v.JetViews,
+		Session:  v.Session,
 	}
 	v.Render = &myRenderer
 }
